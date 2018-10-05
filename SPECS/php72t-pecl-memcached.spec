@@ -30,7 +30,6 @@ Source0:      https://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
 BuildRequires: %{php}-devel
 BuildRequires: %{php}-json
-BuildRequires: %{php}-pecl-igbinary-devel
 %{?with_msgpack:BuildRequires: %{php}-pecl-msgpack-devel}
 BuildRequires: libevent-devel  > 2
 BuildRequires: libmemcached-devel >= 1.0.16
@@ -49,7 +48,6 @@ BuildRequires:  %{php}-process
 BuildRequires:  %{php}-xml
 
 Requires:     %{php}-json%{?_isa}
-Requires:     %{php}-pecl-igbinary%{?_isa}
 Requires:     php(zend-abi) = %{php_zend_api}
 Requires:     php(api) = %{php_core_api}
 %{?with_msgpack:Requires: %{php}-msgpack%{?_isa}}
@@ -142,8 +140,7 @@ cp -r NTS ZTS
 
 %build
 peclconf() {
-%configure --enable-memcached-igbinary \
-           --enable-memcached-json \
+%configure  --enable-memcached-json \
            --enable-memcached-sasl \
 %{?with_msgpack: --enable-memcached-msgpack} \
            --enable-memcached-protocol \
@@ -187,7 +184,6 @@ done
 
 %check
 OPT="-n"
-[ -f %{php_extdir}/igbinary.so ] && OPT="$OPT -d extension=igbinary.so"
 [ -f %{php_extdir}/json.so ]     && OPT="$OPT -d extension=json.so"
 [ -f %{php_extdir}/msgpack.so ]  && OPT="$OPT -d extension=msgpack.so"
 
@@ -280,6 +276,7 @@ fi
 %changelog
 * Fri Oct 05 2018 Ilya Otyutskiy <ilya.otyutskiy@icloud.com> - 3.0.4-1.vortex
 - Rebuilt with php72t
+- Disable igbinary
 
 * Thu Feb 01 2018 Carl George <carl@george.computer> - 3.0.4-2.ius
 - Remove pear requirement and update scriptlets (adapted from remirepo)
